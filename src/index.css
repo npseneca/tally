@@ -1176,8 +1176,6 @@ main {
 
 /* Plain text, not a box, so it does not look like an editable field. */
 .entry-view-note {
-  font-size: 17px;
-  line-height: 1.5;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   -webkit-user-select: text;
