@@ -96,7 +96,7 @@ export function Today({
             className="now-note"
             defaultValue={running.note}
             placeholder="Add a note…"
-            maxLength={200}
+            maxLength={2000}
             enterKeyHint="done"
             onBlur={(e) => {
               if (e.target.value.trim() !== running.note) void setEntryNote(running.id, e.target.value)

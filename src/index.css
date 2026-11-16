@@ -455,10 +455,18 @@ main {
   color: var(--ink);
 }
 
-.field input {
+.field textarea {
+  padding: 12px 14px;
+  line-height: 1.45;
+  resize: none;
+  font: inherit;
+  color: inherit;
+}
+
+.field input,
+.field textarea {
   width: 100%;
   min-height: 48px;
-  padding: 0 14px;
   border-radius: 14px;
   border: 1.5px solid var(--line-strong);
   background: var(--raised);
@@ -466,6 +474,11 @@ main {
   appearance: none;
 }
 
+.field input {
+  padding: 0 14px;
+}
+
+.field textarea:focus,
 .field input:focus {
   outline: none;
   border-color: var(--accent);
@@ -1118,4 +1131,62 @@ main {
   margin-top: 0;
   background: var(--card);
   box-shadow: var(--shadow);
+}
+
+/* ---- entry view ---- */
+
+.entry-view-head {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.entry-view-head .bar {
+  width: 6px;
+  border-radius: 3px;
+  background: var(--c);
+  flex: none;
+}
+
+.entry-view-duration {
+  font-family: var(--serif);
+  font-weight: 540;
+  font-size: 38px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 6px;
+}
+
+.entry-view-duration.live {
+  color: var(--c);
+}
+
+.entry-view-when {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.field-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.entry-view-note {
+  background: var(--raised);
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 17px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.entry-view .btn {
+  margin-top: 20px;
 }

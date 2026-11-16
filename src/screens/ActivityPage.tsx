@@ -2,6 +2,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { useState } from 'react'
 import { ActivitySheet } from '../components/ActivitySheet'
 import { EntrySheet } from '../components/EntrySheet'
+import { EntryView } from '../components/EntryView'
 import { Icon } from '../components/ui'
 import { db, setEntryNote, startTimer, stopTimer, type Entry } from '../db'
 import { useActivities, useNow, useRunning, useSpans } from '../hooks'
@@ -92,7 +93,7 @@ export function ActivityPage({ activityId, onBack }: { activityId: string; onBac
             className="now-note"
             defaultValue={mine.note}
             placeholder="Add a note…"
-            maxLength={200}
+            maxLength={2000}
             enterKeyHint="done"
             onBlur={(e) => {
               if (e.target.value.trim() !== mine.note) void setEntryNote(mine.id, e.target.value)
@@ -154,7 +155,7 @@ export function ActivityPage({ activityId, onBack }: { activityId: string; onBac
         <ActivitySheet activity={activity} usedColors={all.map((a) => a.color)} onClose={() => setSheet(null)} />
       )}
       {sheet === 'add' && <EntrySheet activities={all} defaultActivityId={activity.id} onClose={() => setSheet(null)} />}
-      {sheet && typeof sheet === 'object' && <EntrySheet entry={sheet} activities={all} onClose={() => setSheet(null)} />}
+      {sheet && typeof sheet === 'object' && <EntryView entry={sheet} activities={all} onClose={() => setSheet(null)} />}
     </div>
   )
 }

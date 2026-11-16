@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useState } from 'react'
 import { EntrySheet } from '../components/EntrySheet'
+import { EntryView } from '../components/EntryView'
 import { Icon } from '../components/ui'
 import { db, type Entry } from '../db'
 import { useActivities, useNow } from '../hooks'
@@ -108,12 +109,9 @@ export function Entries() {
         </button>
       )}
 
-      {editing && (
-        <EntrySheet
-          entry={editing === 'new' ? undefined : editing}
-          activities={activities}
-          onClose={() => setEditing(null)}
-        />
+      {editing === 'new' && <EntrySheet activities={activities} onClose={() => setEditing(null)} />}
+      {editing && editing !== 'new' && (
+        <EntryView entry={editing} activities={activities} onClose={() => setEditing(null)} />
       )}
     </div>
   )

@@ -3,6 +3,9 @@ import { deleteEntry, saveEntry, type Activity, type Entry } from '../db'
 import { fmtDuration, fromLocalInput, MIN, toLocalInput } from '../time'
 import { Sheet } from './ui'
 
+/** Longest note the app accepts. */
+export const NOTE_MAX = 2000
+
 function roundTo5(d: Date): Date {
   return new Date(Math.round(d.getTime() / (5 * MIN)) * 5 * MIN)
 }
@@ -97,7 +100,13 @@ export function EntrySheet({
       {isRunning && !end && <p className="hint">Leave the end empty to keep the timer running.</p>}
       <label className="field">
         <span>Note</span>
-        <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="Optional" maxLength={200} />
+        <textarea
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="Optional"
+          rows={4}
+          maxLength={NOTE_MAX}
+        />
       </label>
       {problem && activityId && <p className="error">{problem}</p>}
       <button className="btn primary" onClick={() => void save()} disabled={!!problem}>
