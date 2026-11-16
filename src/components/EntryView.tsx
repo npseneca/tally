@@ -44,7 +44,7 @@ export function EntryView({
         </div>
 
         <p className="field-label">Note</p>
-        {entry.note ? <p className="hint entry-view-note">{entry.note}</p> : <p className="hint">No note on this entry.</p>}
+        {entry.note ? <p className="entry-view-note">{entry.note}</p> : <p className="hint">No note on this entry.</p>}
 
         <button className="btn primary" onClick={() => setEditing(true)}>
           Edit entry
