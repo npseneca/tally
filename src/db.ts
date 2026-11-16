@@ -52,6 +52,9 @@ class TallyDB extends Dexie {
       entries: 'id, started_at, dirty, running',
       meta: 'key',
     })
+    this.version(2).stores({
+      entries: 'id, started_at, dirty, running, activity_id',
+    })
   }
 }
 

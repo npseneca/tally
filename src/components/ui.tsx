@@ -127,6 +127,8 @@ const PATHS: Record<string, ReactNode> = {
   right: <path d="M9 5l7 7-7 7" />,
   up: <path d="M5 15l7-7 7 7" />,
   down: <path d="M5 9l7 7 7-7" />,
+  play: <path d="M8.5 5.2v13.6a.8.8 0 0 0 1.2.7l11-6.8a.8.8 0 0 0 0-1.4l-11-6.8a.8.8 0 0 0-1.2.7z" fill="currentColor" stroke="none" />,
+  edit: <path d="M4 20h4L19.5 8.5l-4-4L4 16v4zM13.5 6.5l4 4" />,
   stop: <rect x="6.5" y="6.5" width="11" height="11" rx="2.5" fill="currentColor" stroke="none" />,
 }
 

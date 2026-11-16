@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TimerGuard } from './components/TimerGuard'
 import { Icon } from './components/ui'
 import { useRunning } from './hooks'
+import { ActivityPage } from './screens/ActivityPage'
 import { Entries } from './screens/Entries'
 import { Month } from './screens/Month'
 import { Settings } from './screens/Settings'
@@ -21,11 +22,34 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('today')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const running = useRunning()
+  const [activityId, setActivityId] = useState<string | null>(null)
+
+  // The activity page is a history entry, so the back gesture returns to Today.
+  useEffect(() => {
+    const onPop = () => setActivityId(null)
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+  const openActivity = (id: string) => {
+    history.pushState({ tallyActivity: id }, '')
+    setActivityId(id)
+    window.scrollTo(0, 0)
+  }
+  const closeActivity = () => {
+    if (history.state?.tallyActivity) history.back()
+    setActivityId(null)
+    window.scrollTo(0, 0)
+  }
 
   return (
     <>
       <main>
-        {tab === 'today' && <Today onOpenSettings={() => setSettingsOpen(true)} />}
+        {tab === 'today' &&
+          (activityId ? (
+            <ActivityPage activityId={activityId} onBack={closeActivity} />
+          ) : (
+            <Today onOpenSettings={() => setSettingsOpen(true)} onOpenActivity={openActivity} />
+          ))}
         {tab === 'entries' && <Entries />}
         {tab === 'week' && <Week />}
         {tab === 'month' && <Month />}
@@ -38,6 +62,7 @@ export default function App() {
             className={'tab' + (tab === t.id ? ' on' : '')}
             aria-current={tab === t.id ? 'page' : undefined}
             onClick={() => {
+              if (activityId) closeActivity()
               setTab(t.id)
               window.scrollTo(0, 0)
             }}

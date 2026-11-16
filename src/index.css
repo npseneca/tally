@@ -994,3 +994,128 @@ main {
 .quick-add .btn {
   margin-top: 0;
 }
+
+/* ---- activity page ---- */
+
+.now-open {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+}
+
+.now-open:disabled {
+  opacity: 1;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  margin-left: -6px;
+  padding-right: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.activity-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--serif);
+  font-weight: 560;
+  font-size: 34px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.activity-title .dot {
+  width: 18px;
+  height: 18px;
+}
+
+.timer-card {
+  background: var(--card);
+  border: 1.5px solid transparent;
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 26px 18px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.timer-card.on {
+  background: color-mix(in srgb, var(--c) 16%, var(--card));
+  border-color: color-mix(in srgb, var(--c) 45%, transparent);
+  box-shadow: none;
+}
+
+.timer-clock {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 68px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-card:not(.on) .timer-clock {
+  color: var(--muted);
+}
+
+.timer-status {
+  font-size: 14.5px;
+  color: var(--muted);
+}
+
+.play-btn {
+  width: 92px;
+  height: 92px;
+  margin: 16px 0 8px;
+  border-radius: 50%;
+  background: var(--c);
+  color: #fffaf2;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--c) 40%, transparent);
+  transition: transform 0.08s ease;
+}
+
+.play-btn:active {
+  transform: scale(0.95);
+}
+
+.timer-card .now-note {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.stat-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stat {
+  padding: 14px 18px;
+}
+
+.stat-value {
+  font-family: var(--serif);
+  font-weight: 540;
+  font-size: 26px;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.btn.add-entry {
+  margin-top: 0;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}

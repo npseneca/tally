@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ActivitySheet } from '../components/ActivitySheet'
 import { Icon } from '../components/ui'
-import { addActivity, setEntryNote, startTimer, stopTimer } from '../db'
+import { addActivity, setEntryNote, stopTimer } from '../db'
 import { useActivities, useNow, useRunning, useSpans } from '../hooks'
 import { nextColor } from '../palette'
 import { sum, totalsByActivity } from '../stats'
@@ -9,7 +9,13 @@ import { addDays, fmtClock, fmtDayLong, fmtDuration, fmtTime, startOfDay } from 
 
 const SUGGESTIONS = ['Work', 'Exercise', 'Reading', 'Family', 'Chores', 'Learning']
 
-export function Today({ onOpenSettings }: { onOpenSettings: () => void }) {
+export function Today({
+  onOpenSettings,
+  onOpenActivity,
+}: {
+  onOpenSettings: () => void
+  onOpenActivity: (id: string) => void
+}) {
   const all = useActivities()
   const running = useRunning()
   const now = useNow(running ? 1000 : 30_000)
@@ -66,16 +72,21 @@ export function Today({ onOpenSettings }: { onOpenSettings: () => void }) {
           aria-label="Running timer"
         >
           <div className="now-row">
-            <div>
-              <p className="now-name">
+            <button
+              className="now-open"
+              disabled={!runningActivity}
+              onClick={() => runningActivity && onOpenActivity(runningActivity.id)}
+              aria-label={`Open ${runningActivity?.name ?? 'activity'}`}
+            >
+              <span className="now-name">
                 <i className="dot pulse" />
                 {runningActivity?.name ?? 'Unknown activity'}
-              </p>
-              <p className="now-clock" role="timer">
+              </span>
+              <span className="now-clock" role="timer">
                 {fmtClock(now - Date.parse(running.started_at))}
-              </p>
-              <p className="now-since">since {fmtTime(new Date(running.started_at))}</p>
-            </div>
+              </span>
+              <span className="now-since">since {fmtTime(new Date(running.started_at))}</span>
+            </button>
             <button className="stop-btn" onClick={() => void stopTimer()} aria-label="Stop timer">
               <Icon name="stop" size={30} />
             </button>
@@ -98,7 +109,7 @@ export function Today({ onOpenSettings }: { onOpenSettings: () => void }) {
       {activities.length === 0 ? (
         <section className="empty">
           <h2>What do you want to track?</h2>
-          <p>Add a few activities, then tap one whenever you start doing it.</p>
+          <p>Add a few activities, then open one to start its timer or log time.</p>
           {suggestionChips}
           <button className="btn primary" onClick={() => setAdding(true)}>
             Add your own
@@ -106,7 +117,7 @@ export function Today({ onOpenSettings }: { onOpenSettings: () => void }) {
         </section>
       ) : (
         <>
-          <p className="section-label">{running ? 'Switch to' : 'Tap to start'}</p>
+          <p className="section-label">Activities</p>
           <section className="grid">
             {activities.map((a) => {
               const on = running?.activity_id === a.id
@@ -115,12 +126,14 @@ export function Today({ onOpenSettings }: { onOpenSettings: () => void }) {
                   key={a.id}
                   className={'tile' + (on ? ' on' : '')}
                   style={{ '--c': a.color } as React.CSSProperties}
-                  aria-pressed={on}
-                  onClick={() => void (on ? stopTimer() : startTimer(a.id))}
+                  onClick={() => onOpenActivity(a.id)}
                 >
-                  <i className="dot" />
+                  <i className={'dot' + (on ? ' pulse' : '')} />
                   <span className="tile-name">{a.name}</span>
-                  <span className="tile-time">{on ? 'Running · tap to stop' : fmtDuration(totals.get(a.id) ?? 0)}</span>
+                  <span className="tile-time">
+                    {on ? 'Running · ' : ''}
+                    {fmtDuration(totals.get(a.id) ?? 0)} today
+                  </span>
                 </button>
               )
             })}

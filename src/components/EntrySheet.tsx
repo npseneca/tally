@@ -11,14 +11,17 @@ function roundTo5(d: Date): Date {
 export function EntrySheet({
   entry,
   activities,
+  defaultActivityId,
   onClose,
 }: {
   entry?: Entry
   activities: Activity[]
+  /** Preselects the activity for a new entry. */
+  defaultActivityId?: string
   onClose: () => void
 }) {
   const isRunning = !!entry && !entry.ended_at
-  const [activityId, setActivityId] = useState(entry?.activity_id ?? '')
+  const [activityId, setActivityId] = useState(entry?.activity_id ?? defaultActivityId ?? '')
   const [start, setStart] = useState(() =>
     toLocalInput(entry ? new Date(entry.started_at) : roundTo5(new Date(Date.now() - 30 * MIN))),
   )
@@ -29,7 +32,7 @@ export function EntrySheet({
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   // Archived activities are only offered when the entry already uses one.
-  const choices = activities.filter((a) => !a.archived || a.id === entry?.activity_id)
+  const choices = activities.filter((a) => !a.archived || a.id === entry?.activity_id || a.id === defaultActivityId)
 
   const startDate = fromLocalInput(start)
   const endDate = fromLocalInput(end)
