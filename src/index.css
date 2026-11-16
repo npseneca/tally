@@ -1174,11 +1174,8 @@ main {
   margin-bottom: 6px;
 }
 
+/* Plain text, not a box, so it does not look like an editable field. */
 .entry-view-note {
-  background: var(--raised);
-  border: 1.5px solid var(--line);
-  border-radius: 16px;
-  padding: 14px 16px;
   font-size: 17px;
   line-height: 1.5;
   white-space: pre-wrap;
